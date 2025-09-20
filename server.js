@@ -5,6 +5,12 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 8000;
 
+// Log environment info
+console.log('🚀 Starting Pappa Fresh server...');
+console.log('📋 Environment:', process.env.NODE_ENV || 'development');
+console.log('🔑 Stripe key configured:', !!process.env.STRIPE_SECRET_KEY);
+console.log('🌐 Port:', PORT);
+
 // Middleware
 app.use(express.json());
 app.use(express.static('.'));
@@ -45,8 +51,25 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.listen(PORT, () => {
-    console.log(`🚀 Pappa Fresh server running on port ${PORT}`);
-    console.log(`📱 Local: http://localhost:${PORT}`);
-    console.log(`💳 Stripe payment intents enabled`);
+// Start server with error handling
+app.listen(PORT, (err) => {
+    if (err) {
+        console.error('❌ Failed to start server:', err);
+        process.exit(1);
+    }
+    console.log(🚀 Pappa Fresh server running on port ${PORT});
+    console.log(📱 Local: http://localhost:${PORT});
+    console.log(💳 Stripe payment intents enabled);
+    console.log(✅ Server started successfully!);
+});
+
+// Handle uncaught exceptions
+process.on('uncaughtException', (err) => {
+    console.error('❌ Uncaught Exception:', err);
+    process.exit(1);
+});
+
+process.on('unhandledRejection', (err) => {
+    console.error('❌ Unhandled Rejection:', err);
+    process.exit(1);
 });
